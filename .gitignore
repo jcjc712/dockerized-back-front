@@ -1,0 +1,18 @@
+# Mac OS
+*.DS_Store
+
+# PyCharm
+.idea/
+.pycharmrc
+
+docker-compose.override.yml
+
+gource.sh
+.vscode/
+
+# VIM
+*.swp
+*.swo
+
+# Cache files from python requests package
+cache.sqlite

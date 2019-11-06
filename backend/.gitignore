@@ -1,0 +1,45 @@
+# Mac OS
+*.DS_Store
+
+# Python
+*.pyc
+pip-selfcheck.json
+pyvenv.cfg
+/venv/
+/lib/
+/bin/
+
+# PyCharm
+.idea/
+.pycharmrc
+loany/settings/local.py
+
+# Django
+*.sqlite*
+/static/
+
+# Gource
+gource.mp4
+logo.png
+
+# Docker
+docker-compose.override.yml
+snapshot.sql.gz
+
+# Django-Bower
+/components/
+
+# Celery
+celerybeat.pid
+
+# Coverage
+.coverage
+.coverage.*
+htmlcov/
+
+# Jupyter
+.ipynb*
+*.ipynb
+
+# LaTeX
+*.pdf
