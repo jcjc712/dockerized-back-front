@@ -10,6 +10,7 @@ services:
       - backendnetwork
   backend:
     build: ./backend
+    image: backend:latest
     volumes:
       - ./backend:/app/backend
     ports:
@@ -22,9 +23,12 @@ services:
     networks:
       - backendnetwork
       - proxy
+    env_file:
+      - ./backend/.env
     environment:
       VIRTUAL_HOST: backend.test
   frontend:
+    image: frontend:latest
     build: ./frontend
     volumes:
       - ./frontend:/app
