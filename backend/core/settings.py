@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'psycopg2',
-    'core'
+    'core',
+    'check_list'
 ]
 
 MIDDLEWARE = [
