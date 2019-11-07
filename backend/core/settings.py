@@ -41,9 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "rest_framework",
-    "corsheaders",
-    "psycopg2"
+    'rest_framework',
+    'corsheaders',
+    'psycopg2',
+    'core'
 ]
 
 MIDDLEWARE = [
@@ -107,6 +108,10 @@ DATABASES = {
         "PORT": 5432,
     }
 }
+
+# Env-vars
+ADMIN_USERNAME = os.getenv('ADMIN_USERNAME', 'admin')
+ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', 'admin')
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
