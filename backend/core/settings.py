@@ -28,7 +28,7 @@ DEBUG = True
 # TODO remove frontend.test
 ALLOWED_HOSTS = [
     'backend.test',
-#    'frontend.test',
+    'frontend.test',
     'localhost'
 ]
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_jwt',
     'corsheaders',
     'psycopg2',
     'core',
@@ -59,9 +60,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_CREDENTIALS = True
-CSRF_COOKIE_NAME = "csrftoken"
-
 # TODO this could take envvars
 CORS_ORIGIN_WHITELIST = [
     "http://frontend.test",
@@ -69,11 +67,15 @@ CORS_ORIGIN_WHITELIST = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ]
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
+}
+
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'core.utils.my_jwt_response_handler'
 }
 
 ROOT_URLCONF = 'core.urls'

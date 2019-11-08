@@ -1,24 +1,47 @@
 import React from 'react';
-import logo from './logo.svg';
+import axios from 'axios';
 import './App.css';
+
+const updateStuff = () => {
+    let config = {
+      headers: {
+        Authorization: `JWT ${localStorage.getItem('token')}`
+      }
+    }
+    console.log(config);
+  axios.patch('http://backend.test/api/check_list/1/', { subject: 'foo' },config)
+    .then(resp => {
+        console.log(resp)
+       })
+    .catch(error => {
+      console.log("Update error", error)
+    })
+}
+
+
+function handleLogin(event) {
+    let config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+      axios.post('http://backend.test/api-token-auth/', { username: 'admin', password: 'admin'}, config)
+     .then(({data}) => {
+        localStorage.setItem('token', data.token);
+    }).catch(err => {
+      console.log('Login error', err.response)
+    });
+}
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <h1>here.....</h1>
+        <button onClick={handleLogin}>Login</button>
+        <button onClick={updateStuff}>Request</button>
+      </div>
     </div>
   );
 }
