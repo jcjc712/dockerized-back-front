@@ -1,0 +1,21 @@
+# Mac OS
+*.DS_Store
+
+# Python
+*.pyc
+pip-selfcheck.json
+pyvenv.cfg
+/venv/
+/lib/
+/bin/
+
+# PyCharm
+.idea/
+.pycharmrc
+
+# Django
+*.sqlite*
+/static/
+
+# Docker
+docker-compose.override.yml
