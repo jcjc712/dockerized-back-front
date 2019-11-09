@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import CheckListItem from "./CheckListItem/CheckListItem";
+import CreateCheckListItem from "./CreateCheckListItem/CreateCheckListItem";
 import axios from "../../axios-checklist";
 
 class CheckList extends Component {
     state = {
-        items: []
+        items: [],
+        createItem: {
+            subject:'',
+            status: false,
+        }
     }
     config = {}
 
@@ -44,6 +49,18 @@ class CheckList extends Component {
         })
     }
 
+    addItemHandler = (event, item) => {
+        axios.post('/api/check_list/', item, this.config)
+        .then(resp => {
+            const updatedItems = [...this.state.items]
+            updatedItems.push(resp.data)
+            this.setState({createItem:{subject: ''}})
+        })
+        .catch(error => {
+          console.log("Post error", error)
+        })
+    }
+
     changeStatusHandler = (id) => {
         const updatedItems = [...this.state.items]
         let index = this.getIndexInItems(updatedItems, id);
@@ -57,9 +74,14 @@ class CheckList extends Component {
         })
     }
 
+    changeState = (event) => {
+        this.setState({createItem:{subject: event.target.value}})
+    }
+
     render() {
         const allItems = this.state.items.map(function(item) {
             return <CheckListItem
+                key={item.id}
                 item={item}
                 itemDeleted={()=>this.removeItemHandler(item.id)}
                 itemChangeStatus={()=>this.changeStatusHandler(item.id)}
@@ -67,6 +89,11 @@ class CheckList extends Component {
         }, this);
         return (
             <div>
+                <CreateCheckListItem
+                    changeState={this.changeState}
+                    createItem={this.state.createItem}
+                    itemAdded={this.addItemHandler} />
+                <br/>
                 {allItems}
             </div>
         );
