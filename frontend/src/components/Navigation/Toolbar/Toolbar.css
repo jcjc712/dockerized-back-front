@@ -1,0 +1,12 @@
+.Toolbar a:hover,
+.Toolbar a:active{
+    color: black;
+}
+
+.Toolbar .active{
+    color:black;
+}
+
+.Toolbar a{
+    color:darkgray;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from "../../../axios-checklist";
 import { Redirect } from 'react-router-dom';
+import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 
 class LogIn extends Component {
     state = {
@@ -36,28 +37,44 @@ class LogIn extends Component {
 
         return (
             <div>
-                <h4>Log in</h4>
-                <form onSubmit={this.sendCredentialsHandler}>
-                    <label>
-                        User:
-                        <input type="text"
-                               name="user"
-                               value={this.state.user}
-                               onChange={this.changeState}
-                        />
-                    </label>
-                    <label>
-                        Password:
-                        <input
-                            type="password"
-                            name="password"
-                            value={this.state.password}
-                            onChange={this.changeState}
-                        />
-                    </label>
-                    <input type="submit" value="Submit" />
-                </form>
-                <a href="/sign-up">Sign up</a>
+                <Container>
+                    <Row>
+                        <Col md={{ span: 6, offset: 3 }}>
+                            <Card>
+                              <Card.Body>
+                                <h4>Log in</h4>
+                                <Form onSubmit={this.sendCredentialsHandler}>
+                                  <Form.Group controlId="formBasicUserName">
+                                    <Form.Label>User name</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="user"
+                                        placeholder="Enter username"
+                                        value={this.state.user}
+                                        onChange={this.changeState}
+                                    />
+                                  </Form.Group>
+
+                                  <Form.Group controlId="formBasicPassword">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        name="password"
+                                        placeholder="Password"
+                                        value={this.state.password}
+                                        onChange={this.changeState}
+                                    />
+                                  </Form.Group>
+                                  <Button variant="primary" type="submit">
+                                    Submit
+                                  </Button>
+                                </Form>
+                                <a href="/sign-up">Sign up</a>
+                              </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Container>
             </div>
         );
     }

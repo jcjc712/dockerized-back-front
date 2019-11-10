@@ -3,6 +3,7 @@ import CheckListItem from "./CheckListItem/CheckListItem";
 import CreateCheckListItem from "./CreateCheckListItem/CreateCheckListItem";
 import axios from "../../axios-checklist";
 import {Redirect} from "react-router";
+import { Table, Container } from 'react-bootstrap';
 
 class CheckList extends Component {
     state = {
@@ -63,7 +64,7 @@ class CheckList extends Component {
         .then(resp => {
             const updatedItems = [...this.state.items]
             updatedItems.push(resp.data)
-            this.setState({createItem:{subject: ''}})
+            this.setState({items:updatedItems, createItem:{subject: ''}})
         })
         .catch(error => {
           console.log("Post error", error);
@@ -106,12 +107,25 @@ class CheckList extends Component {
         }, this);
         return (
             <div>
-                <CreateCheckListItem
-                    changeState={this.changeState}
-                    createItem={this.state.createItem}
-                    itemAdded={this.addItemHandler} />
-                <br/>
-                {allItems}
+                <Container>
+                    <CreateCheckListItem
+                        changeState={this.changeState}
+                        createItem={this.state.createItem}
+                        itemAdded={this.addItemHandler} />
+                    <br/>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                              <th>Subject</th>
+                              <th>Status</th>
+                              <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {allItems}
+                        </tbody>
+                    </Table>
+                </Container>
             </div>
         );
     }
