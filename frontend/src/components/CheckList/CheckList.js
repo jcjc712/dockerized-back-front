@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CheckListItem from "./CheckListItem/CheckListItem";
 import CreateCheckListItem from "./CreateCheckListItem/CreateCheckListItem";
 import axios from "../../axios-checklist";
+import {Redirect} from "react-router";
 
 class CheckList extends Component {
     state = {
@@ -9,17 +10,23 @@ class CheckList extends Component {
         createItem: {
             subject:'',
             status: false,
-        }
+        },
+        redirect: false
     }
     config = {}
 
     componentDidMount() {
+        if(!localStorage.getItem('token')){
+            this.setState({ redirect: true });
+        }
+
         axios.get('/api/check_list/',{headers: {Authorization: `JWT ${localStorage.getItem('token')}`}})
         .then(response => {
             this.setState({items:response.data})
            })
         .catch(error => {
-          console.log("List request error", error)
+          console.log("List request error", error);
+          this.setState({ redirect: true });
         })
 
         this.config = {
@@ -46,18 +53,21 @@ class CheckList extends Component {
         })
         .catch(error => {
           console.log("Delete item error", error)
+            this.setState({ redirect: true });
         })
     }
 
-    addItemHandler = (event, item) => {
-        axios.post('/api/check_list/', item, this.config)
+    addItemHandler = (event) => {
+        event.preventDefault();
+        axios.post('/api/check_list/', this.state.createItem, this.config)
         .then(resp => {
             const updatedItems = [...this.state.items]
             updatedItems.push(resp.data)
             this.setState({createItem:{subject: ''}})
         })
         .catch(error => {
-          console.log("Post error", error)
+          console.log("Post error", error);
+          this.setState({ redirect: true });
         })
     }
 
@@ -70,7 +80,8 @@ class CheckList extends Component {
             this.setState({items:updatedItems})
         })
         .catch(error => {
-          console.log("Update error", error)
+          console.log("Update error", error);
+          this.setState({ redirect: true });
         })
     }
 
@@ -79,6 +90,12 @@ class CheckList extends Component {
     }
 
     render() {
+        const { redirect } = this.state;
+
+         if (redirect) {
+           return <Redirect to='/log-in'/>;
+         }
+
         const allItems = this.state.items.map(function(item) {
             return <CheckListItem
                 key={item.id}

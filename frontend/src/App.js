@@ -1,35 +1,45 @@
-import React from 'react';
-import axios from 'axios';
+import React, {Component} from 'react';
 import './App.css';
 import CheckList from './components/CheckList/CheckList';
 import Layout from './components/Layout/Layout';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import LogIn from "./components/Navigation/LogIn/LogIn";
+import LogOut from "./components/Navigation/LogOut/LogOut";
+import SignUp from "./components/Navigation/SignUp/SignUp";
 
-function handleLogin(event) {
-    let config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
+class App extends Component {
+
+    state = {
+        isLogged: false
     }
-      axios.post('http://backend.test/api-token-auth/', { username: 'admin', password: 'admin'}, config)
-     .then(({data}) => {
-        localStorage.setItem('token', data.token);
-    }).catch(err => {
-      console.log('Login error', err.response)
-    });
-}
 
+    componentDidMount() {
+        this.setState({isLogged:false})
+        if(localStorage.getItem('token')){
+            this.setState({isLogged:true})
+        }
+    }
 
-function App() {
-  return (
-    <div className="App">
-      <div>
-          <Layout>
-              <CheckList />
-          </Layout>
-        <button onClick={handleLogin}>Login</button>
-      </div>
-    </div>
-  );
+    updateIsLogged = (status) => {
+        this.setState({isLogged:status})
+    }
+
+  render() {
+      return <BrowserRouter>
+        <div className="App">
+          <div>
+              <Layout isLogged={this.state.isLogged}>
+                  <Switch>
+                      <Route path="/log-in" component={() => <LogIn updateIsLogged={this.updateIsLogged} />}></Route>
+                      <Route path="/log-out" component={() => <LogOut updateIsLogged={this.updateIsLogged} />}></Route>
+                      <Route path="/sign-up" component={() => <SignUp updateIsLogged={this.updateIsLogged} />}></Route>
+                      <Route path="/" exact component={() => <CheckList updateIsLogged={this.updateIsLogged} />}></Route>
+                  </Switch>
+              </Layout>
+          </div>
+        </div>
+      </BrowserRouter>
+  }
 }
 
 export default App;
