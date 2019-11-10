@@ -74,3 +74,9 @@ make start
 ```sh
 make docker-test
 ```
+
+## Login view
+![Alt text](./log_in.png?raw=true "Log in")
+
+## Checklist view
+![Alt text](./check_list.png?raw=true "Check List")
